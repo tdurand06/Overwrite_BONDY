@@ -30,6 +30,8 @@ id_to_fokontany = df_info_gen.set_index('ID_Ménage')['Fokontany'].to_dict()
 
 # Initialize Excel writer
 with pd.ExcelWriter(new_file_path, engine='openpyxl') as writer:
+  
+  <<<<<<< Sub
     # Save "Informations générales" tab as is
     df_info_gen.to_excel(writer, sheet_name='Informations générales', index=False)
 
@@ -46,3 +48,5 @@ with pd.ExcelWriter(new_file_path, engine='openpyxl') as writer:
 print("The modified file has been saved with the 'Fokontany' column added to the specified tabs.")
 
 #This should work
+
+
