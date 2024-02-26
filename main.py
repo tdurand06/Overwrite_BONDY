@@ -28,10 +28,12 @@ IDs_to_keep = df_info_gen[df_info_gen['Fokontany'].isin(villages_to_keep)]['ID_M
 # Create a mapping of ID_Ménage to Fokontany for later use
 id_to_fokontany = df_info_gen.set_index('ID_Ménage')['Fokontany'].to_dict()
 
+
 # Initialize Excel writer
 with pd.ExcelWriter(new_file_path, engine='openpyxl') as writer:
     # Save "Informations générales" tab as is
-    df_info_gen.to_excel(writer, sheet_name='Informations générales', index=False)
+    df_info_gen_filtered = df_info_gen[df_info_gen['ID_Ménage'].isin(IDs_to_keep)]
+    df_info_gen_filtered.to_excel(writer, sheet_name='Informations générales', index=False)
 
     # Process each specified tab
     for tab in tabs_to_update:
