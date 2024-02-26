@@ -1,5 +1,9 @@
 import pandas as pd
-
+from openpyxl import load_workbook
+from openpyxl.styles import Alignment
+#Variables
+cell_width = 20
+#Constant
 # Explicit list of village names to keep
 villages_to_keep = [
     "Ankotika", "Antrema", "Ampamakia", "Marosely", "Ambolipamba",
@@ -7,13 +11,10 @@ villages_to_keep = [
     "Antafiantsivakina", "Antsaonjo", "Anjiajia", "Beloy", "Ankerika Nord",
     "Ambiky", "Ambiky", "Andampy", "Ambalarano", "Komaronga", "Tsinjoarivo"
 ]
-
 # The path to your original Excel file
 original_file_path = '/Users/thomasdurand/Desktop/BONDY/diana_excel/donnees_DIANA_SOFIA.xlsx'
-
 # The path for the new modified Excel file
 new_file_path = '/Users/thomasdurand/Desktop/BONDY/diana_excel/donnees_DIANA_SOFIA_filtered.xlsx'
-
 # Tabs to update based on the "Informations générales" filtering, excluding "Informations générales"
 tabs_to_update = [
     "Education", "Place de la femme", "Culture", "Activités et revenus",
@@ -47,5 +48,14 @@ with pd.ExcelWriter(new_file_path, engine='openpyxl') as writer:
 
 print("The modified file has been saved with the 'Fokontany' column added to the specified tabs.")
 
+wb = load_workbook(new_file_path)
+for sheet_name in wb.sheetnames:
+    ws = wb[sheet_name]
+    for col in ws.columns:
+        for cell in col:
+            cell.alignment = Alignment(wrapText=True)
+        ws.column_dimensions[col[0].column_letter].width = cell_width
+wb.save(new_file_path)
+print("The cell should be adjusted")
 #This should work
 #
